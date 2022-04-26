@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>	</title>
+	   <style type="text/css">
+        .item {
+            width: 50px;
+            height: 50px;
+            background-size:100% 100%;
+            background-repeat: no-repeat;
+            margin-top: 10px;
+            margin-left: 10px;
+            background-color: none;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            height: 300px;
+            width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 300px;
+            border: 2px solid black;
+        }
+        .border{
+            background-color: indianred;
+        }
+    </style>
+</head>
+<body> 
+
+    <h4 style="position: absolute; font-size: 20px; left: 880px; top: 40px">Score: <span class="score">0</span></h4>
+<button class="btn" style="position: absolute; left: 875px; top: 100px">start game</button>
+<div class="row">
+</div>
+<p style="position: absolute; left: 1700px; top: 45px">T I M E</p>
+<div style="height: 600px; width: 50px; background-color: none; position: absolute; top: 80px; left: 1700px; border: 2px solid black">
+    <div class="time" style="height: 600px; width: 50px; background-color: blue; position: absolute; top: 0px; left: 0px"></div>
+</div>
+
+    
+    <script>
+    //див-родитель
+    let row = document.querySelector(".row");
+    let past_item = null;
+    let score = 0;
+    document.querySelector('.score').innerHTML = score;
+    let btn = document.querySelector(".btn");
+    let int1;
+    btn.onclick = function(){
+        int1 = setInterval(moveBottom, 1000);
+    }
+    //хранение картинок
+    let images = ["1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "7.png", "8.png", "9.png", "10.png", "11.png", "12.png", "13.png", "14.png", "15.png", "16.png", "17.png", "18.png", "19.png", "20.png", "21.png", "22.png", "23.png", "24.png", "25.png", "26.png", "1.png", "2.png", "3.png", "4.png", "5.png", "6.png", "7.png", "8.png", "9.png", "10.png", "11.png", "12.png", "13.png", "14.png", "15.png", "16.png", "17.png", "18.png", "19.png", "20.png", "21.png", "22.png", "23.png", "24.png", "25.png", "26.png"];
+for(let i=0; i<52; i=i+1){
+    let elem = document.createElement('div');
+    row.appendChild(elem);
+    elem.classList.add("item");
+    let index = getRandom(images.length - 1);
+    elem.style.backgroundImage = "url("+images[index]+")";
+
+    elem.me = images[index];
+
+    images.splice(index, 1);
+
+    elem.onclick = function(){
+        elem.classList.add("border");
+
+        if(past_item == null){
+            past_item = elem;
+        }else if(past_item.me == elem.me){
+            console.log("пара");
+            past_item.style.opacity = 0;
+            elem.style.opacity = 0;
+            past_item = null;
+            score = score + 1;
+            document.querySelector('.score').innerHTML = score;
+
+            if(score == 26){
+                alert("🎊YOU WIN!🎉")
+            }
+        }else if(past_item.me != elem.me){
+            past_item.classList.remove("border");
+            past_item = elem;
+        }
+
+    }
+
+}
+
+let time = document.querySelector(".time");
+let move = 600;
+let moveBottom = function(){
+    move = move - 10;
+    time.style.height = move + "px";
+    time.style.transition = "1s";
+
+    if(move == 0){
+        alert("YOU LOOSE!💀")
+    }
+}
+
+    function getRandom(number){
+        let rand = Math.random() * number;
+        let round = Math.round(rand);
+        return round;
+    }
+
+    setInterval(int1);
+    </script>
+</body>
+</html>
